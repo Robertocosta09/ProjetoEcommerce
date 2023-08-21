@@ -64,12 +64,12 @@ header {
 }
 
 #cart-icon {
-    position: fixed;
+
     margin-top: 25px;
     right: 30px;
     transform: translate(0, -50%);
     width: 100px;
-    height: 60px;
+
     font-size: 1.8rem;
     cursor: pointer;
 }
