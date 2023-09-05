@@ -106,4 +106,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.querySelector('.total-price').innerText = '$' + total;
     }
+    // Função para armazenar dados no localStorage
+    function salvarDadosChaveValor(chave, valor) {
+        localStorage.setItem(chave, JSON.stringify(valor));
+    }
+
+    // Função para recuperar dados do localStorage
+    function recuperarDadosChaveValor(chave) {
+        const valor = localStorage.getItem(chave);
+        return valor ? JSON.parse(valor) : null;
+    }
+
+    // Recupere os dados armazenados ou crie um novo objeto vazio
+    const dadosArmazenados = recuperarDadosChaveValor("dadosUsuario") || {};
+
+    // Use os dados armazenados (por exemplo, exiba o nome do usuário)
+    if (dadosArmazenados.nome) {
+        console.log("Nome do usuário armazenado:", dadosArmazenados.nome);
+    } else {
+        console.log("Nenhum nome de usuário encontrado.");
+    }
+
+
+
+
+    ;
 });
