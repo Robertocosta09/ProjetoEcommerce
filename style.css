@@ -58,9 +58,8 @@ header {
 }
 
 .logo {
-    font-size: 1.1rem;
-    color: var(--text-color);
-    font-weight: 400;
+    width: 200px;
+    text-size-adjust: 100%;
 }
 
 #cart-icon {
@@ -230,7 +229,7 @@ header {
     width: 100%;
     height: auto;
     margin-bottom: 0.5rem;
-    background-color: rgb(232, 227, 227);
+    background-color: white;
 
 }
 
