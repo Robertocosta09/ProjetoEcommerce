@@ -28,11 +28,7 @@ body {
     color: var(--text-color)
 }
 
-.container {
-    max-width: 1068px;
-    margin: auto;
-    width: 100%;
-}
+
 
 section {
     padding: 4rem 0 3rem;
@@ -58,7 +54,7 @@ header {
 }
 
 .logo {
-    width: 200px;
+    width: 120px;
     text-size-adjust: 100%;
 }
 
@@ -71,6 +67,13 @@ header {
 
     font-size: 1.8rem;
     cursor: pointer;
+}
+
+.container {
+    max-width: 1068px;
+    margin: auto;
+    width: 100%;
+
 }
 
 .section-title {
