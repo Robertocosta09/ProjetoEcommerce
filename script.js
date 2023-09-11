@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let cart = document.querySelector('.cart');
     let closeCart = document.querySelector('#close-cart');
 
+    let cartItemCount = 0; // Variável para rastrear o número de itens no carrinho
+
     cartIcon.onclick = () => {
         cart.classList.add("active");
     };
@@ -32,18 +34,25 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.btn-buy').addEventListener("click", buyButtonClicked);
 
     function buyButtonClicked() {
-        alert("Seu pedido está pronto");
-        var cartContent = document.querySelector('.cart-content');
-        while (cartContent.hasChildNodes()) {
-            cartContent.removeChild(cartContent.firstChild);
+        if (cartItemCount === 0) {
+            alert("O carrinho está vazio. Adicione pelo menos um item antes de comprar.");
+        } else {
+            alert("Seu pedido está pronto");
+            var cartContent = document.querySelector('.cart-content');
+            while (cartContent.hasChildNodes()) {
+                cartContent.removeChild(cartContent.firstChild);
+            }
+            updateTotal();
         }
-        updateTotal();
     }
 
     function removeCartItem(event) {
-        var buttonClicked = event.target;
-        buttonClicked.parentElement.parentElement.remove(); // Corrigido para remover o elemento pai correto
+        const buttonClicked = event.target;
+        const cartBox = buttonClicked.parentElement;
+        cartBox.remove(); // Remova apenas o elemento do carrinho clicado
         updateTotal();
+        cartItemCount--; // Decrementar o contador quando um item é removido
+        updateCartCounter(); // Atualizar o contador na imagem do carrinho
     }
 
     function quantityChanged(event) {
@@ -57,11 +66,23 @@ document.addEventListener('DOMContentLoaded', function () {
     function addcartClicked(event) {
         var button = event.target;
         var shopProducts = button.parentElement;
-        var title = shopProducts.querySelector(".product-title").innerText;
-        var price = shopProducts.querySelector(".price").innerText;
+        var { innerText: title } = shopProducts.querySelector(".product-title");
+        var { innerText: price } = shopProducts.querySelector(".price");
         var productImg = shopProducts.querySelector(".product-img").src;
+
+        // Verificar se o item já está no carrinho
+        var cartItems = document.querySelectorAll('.cart-product-title');
+        for (var i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].innerText === title) {
+                alert("Você já adicionou este item ao carrinho");
+                return;
+            }
+        }
+
         addProductToCart(title, price, productImg);
         updateTotal();
+        cartItemCount++; // Incrementar o contador quando um item é adicionado
+        updateCartCounter(); // Atualizar o contador na imagem do carrinho
     }
 
     function addProductToCart(title, price, productImg) {
@@ -106,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.querySelector('.total-price').innerText = '$' + total;
     }
+
     // Função para armazenar dados no localStorage
     function salvarDadosChaveValor(chave, valor) {
         localStorage.setItem(chave, JSON.stringify(valor));
@@ -127,8 +149,17 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Nenhum nome de usuário encontrado.");
     }
 
+    function updateCartCounter() {
+        // Atualizar o texto na imagem do carrinho com o número de itens
+        cartIcon.innerText = `Carrinho (${cartItemCount})`;
+    }
 
+    // Inicializar o contador com base nos itens já no carrinho (se houver)
+    const cartItems = document.querySelectorAll('.cart-box');
+    cartItemCount = cartItems.length;
+    updateCartCounter();
 
-
-    ;
 });
+
+
+
