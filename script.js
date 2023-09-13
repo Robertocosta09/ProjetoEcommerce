@@ -96,6 +96,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
         }
+        let botaoComprar = document.getElementsByClassName("btn-buy")[0]; // Selecione o primeiro botão com a classe "btn-buy"
+        botaoComprar.addEventListener('click', () => {
+            Swal.fire({
+                title: 'Parabéns!',
+                text: 'Sua compra foi finalizada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'Obrigado'
+            });
+        });
 
         var cartBoxContent = `
             <img src="${productImg}" alt="" class="cart-img">
