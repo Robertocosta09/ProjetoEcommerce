@@ -60,28 +60,51 @@ header {
 
 #cart-icon {
 
+    width: 30px;
+    height: auto;
     margin-top: 1.6rem;
     right: 30px;
     transform: translate(0, -50%);
-    width: 100px;
-
     font-size: 1.6rem;
     cursor: pointer;
 }
 
+.cart-count {
+    background-color: #4f3f3e;
+    color: white;
+    border-radius: 30%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    position: relative;
+    top: -30px;
+    right: 7px;
+    font-size: 18px;
+}
+
 .container {
-    max-width: 1000px;
+    max-width: 1068px;
     margin: auto;
     width: 100%;
 
 }
 
-.section-title {
+.section-title h2 {
+
     font-size: 1.5rem;
     font-weight: 600;
     text-align: center;
     margin-bottom: 1.5rem;
+}
 
+.section-title h2 {
+
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 5rem;
+    position: relative;
+    margin-top: 50px;
 
 }
 
@@ -118,6 +141,7 @@ header {
     gap: 1rem;
     margin-top: 1rem;
 }
+
 
 .cart-img {
     width: 100px;
@@ -209,7 +233,7 @@ header {
 
 
 .shop {
-    margin-top: 2rem;
+    margin-top: 5rem;
 }
 
 /*shop content*/
@@ -234,6 +258,7 @@ header {
     height: auto;
     margin-bottom: 0.5rem;
     background-color: white;
+
 
 }
 
