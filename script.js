@@ -38,13 +38,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     buyButton.addEventListener("click", () => {
         if (cartItemCount === 0) {
-            alert("O carrinho está vazio. Adicione pelo menos um item antes de comprar.");
+            Swal.fire({
+                title: 'Carrinho Vazio',
+                text: 'O carrinho está vazio. Adicione pelo menos um item antes de comprar.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
         } else {
-            alert("Seu pedido está pronto");
-            clearCart();
-            updateTotal();
-            cartItemCount = 0;
-            updateCartCount();
+            Swal.fire({
+                title: 'Finalizar Compra',
+                text: 'Tem certeza que deseja finalizar a compra?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Finalizar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Compra Finalizada!',
+                        text: 'Seu pedido foi finalizado com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                    clearCart();
+                    updateTotal();
+                    cartItemCount = 0;
+                    updateCartCount();
+                }
+            });
         }
     });
 
@@ -84,15 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <i class='bx bxs-trash-alt cart-remove'></i>`;
         cartContent.appendChild(cartBox);
     }
-    let botaoComprar = document.getElementsByClassName("btn-buy")[0]; // Selecione o primeiro botão com a classe "btn-buy"
-    botaoComprar.addEventListener('click', () => {
-        Swal.fire({
-            title: 'Parabéns!',
-            text: 'Sua compra foi finalizada com sucesso!',
-            icon: 'success',
-            confirmButtonText: 'Obrigado'
-        });
-    });
+
     function quantityChanged(event) {
         updateTotal();
     }
@@ -119,38 +132,43 @@ document.addEventListener('DOMContentLoaded', () => {
         cartCountElement.innerText = cartItemCount;
     }
 
+    // Função para armazenar itens abandonados no carrinho no localStorage
+    window.addEventListener('beforeunload', () => {
+        const cartItems = document.querySelectorAll('.cart-box');
+        const abandonedCart = [];
 
-    // Função para armazenar dados no localStorage
-    function salvarDadosChaveValor(chave, valor) {
-        localStorage.setItem(chave, JSON.stringify(valor));
+        cartItems.forEach(cartItem => {
+            const title = cartItem.querySelector('.cart-product-title').innerText;
+            const price = cartItem.querySelector('.cart-price').innerText;
+            const quantity = cartItem.querySelector('.cart-quantity').value;
+            const productImg = cartItem.querySelector('.cart-img').src;
+
+            abandonedCart.push({
+                title,
+                price,
+                quantity,
+                productImg
+            });
+        });
+
+        localStorage.setItem('abandonedCart', JSON.stringify(abandonedCart));
+    });
+
+    // Restaurar carrinho se houver itens abandonados
+    const abandonedCartData = localStorage.getItem('abandonedCart');
+    if (abandonedCartData) {
+        const abandonedCart = JSON.parse(abandonedCartData);
+        abandonedCart.forEach(item => {
+            addProductToCart(item.title, item.price, item.productImg, item.quantity);
+        });
+        updateTotal();
+        cartItemCount = abandonedCart.length;
+        updateCartCount();
     }
-
-    // Função para recuperar dados do localStorage
-    function recuperarDadosChaveValor(chave) {
-        const valor = localStorage.getItem(chave);
-        return valor ? JSON.parse(valor) : null;
-    }
-
-    // Recupere os dados armazenados ou crie um novo objeto vazio
-    const dadosArmazenados = recuperarDadosChaveValor("dadosUsuario") || {};
-
-    // Use os dados armazenados (por exemplo, exiba o nome do usuário)
-    if (dadosArmazenados.nome) {
-        console.log("Nome do usuário armazenado:", dadosArmazenados.nome);
-    } else {
-        console.log("Nenhum nome de usuário encontrado.");
-    }
-
-    function updateCartCounter() {
-        // Atualizar o texto na imagem do carrinho com o número de itens
-        cartCountElement.innerText = cartItemCount;
-    }
-
-    // Inicializar o contador com base nos itens já no carrinho (se houver)
-    const cartItems = document.querySelectorAll('.cart-box');
-    cartItemCount = cartItems.length;
-    updateCartCounter();
 });
+
+
+
 
 
 
